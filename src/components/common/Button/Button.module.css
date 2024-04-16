@@ -1,5 +1,6 @@
 .buttonBase {
   width: 100%;
+  margin: auto 0;
   padding: var(--spacing-sm) var(--spacing-md);
   cursor: pointer;
   transition: opacity 0.1s;
