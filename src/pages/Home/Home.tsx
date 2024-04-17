@@ -10,7 +10,7 @@ export function Home() {
        <div className={styles.container}>
         <img src={dog} alt='Dog' width="278px"></img>
         <Link to="/pets">
-            <Button variant={ButtonVariant.Default} >Tenho um abrigo</Button>
+            <Button variant={ButtonVariant.Default} >Quero adotar</Button>
         </Link>
         <Link to="/admin">
             <Button variant={ButtonVariant.Outlined} >Tenho um abrigo</Button>
