@@ -1,14 +1,28 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Card } from "../../components/common/Card";
 import { Header } from "../../components/common/Header";
 import { Grid } from "../../components/layout/Grid";
 import styles from './Pets.module.css'
+import { getPets } from "../../services/pets/getPets";
+
+import { Skeleton } from "../../components/common/Skeleton/Skeleton";
 
 export function Pets() {
+    useEffect(() => {
+        async function loadData(){
+            const data = await getPets()
+            console.log(data)
+        }
+    })
     return (
         <Grid>
             <div className={styles.container}>
-                <Header />
-                <Link to="/pets/20">Ir para a listagem</Link>
+                <Header  />
+                <main className={styles.container2}>
+                <Skeleton count={5} containerClassName={styles.skeleton} />    
+                <Card href="/pets/1" text="nina" thumb='' />
+                
+                </main>
             </div>
         </Grid>
     )

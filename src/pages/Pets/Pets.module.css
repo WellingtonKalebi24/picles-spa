@@ -5,6 +5,16 @@
   gap: var(--spacing-xxl);
 }
 
+.container2 {
+
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .filters {
   display: flex;
   flex: 1;
