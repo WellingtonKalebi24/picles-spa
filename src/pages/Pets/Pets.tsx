@@ -19,10 +19,7 @@ export function Pets() {
     }
 
 
-    const { data, isLoading } = useQuery({
-        queryKey: ['get-pets', urlParams],
-        queryFn: () => getPets(urlParams),
-    })
+
 
     function changePage(page: number) {
         setSearchParams((params) => {
