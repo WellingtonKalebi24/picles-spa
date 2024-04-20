@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Card } from '../../components/common/Card'
 import { Header } from '../../components/common/Header'
 import { Pagination } from '../../components/common/Pagination'
+<<<<<<< HEAD
 import { Skeleton } from '../../components/common/Skeleton/Skeleton'
 import { Grid } from '../../components/layout/Grid'
 import { usePetList } from '../../hooks/usePetsList'
@@ -11,6 +12,17 @@ import { Button } from '../../components/common/Button'
 import { filterColumns } from './Pets.constants'
 import { FormEvent } from 'react'
 import { GetPetsRequest } from '../../interfaces/pets'
+=======
+import { Skeleton } from '../../components/common/Skeleton'
+import { Grid } from '../../components/layout/Grid'
+import { usePetList } from '../../hooks/usePetList'
+import styles from './Pets.module.css'
+import { Select } from '../../components/common/Select'
+import { Button } from '../../components/common/Button'
+import { filterColumns } from './Pets.constants'
+import { FormEvent } from 'react'
+import { GetPetsRequest } from '../../interfaces/pet'
+>>>>>>> ec63d8d00f1be65aab241b4bc4204bf560f0344a
 
 export function Pets() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -101,4 +113,8 @@ export function Pets() {
       </div>
     </Grid>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ec63d8d00f1be65aab241b4bc4204bf560f0344a
