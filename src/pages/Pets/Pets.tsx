@@ -2,30 +2,23 @@ import { useSearchParams } from 'react-router-dom'
 import { Card } from '../../components/common/Card'
 import { Header } from '../../components/common/Header'
 import { Pagination } from '../../components/common/Pagination'
-<<<<<<< HEAD
-import { Skeleton } from '../../components/common/Skeleton/Skeleton'
-import { Grid } from '../../components/layout/Grid'
-import { usePetList } from '../../hooks/usePetsList'
-import styles from './Pets.module.css'
-import { Select } from '../../components/common/Select/Select'
-import { Button } from '../../components/common/Button'
-import { filterColumns } from './Pets.constants'
-import { FormEvent } from 'react'
-import { GetPetsRequest } from '../../interfaces/pets'
-=======
 import { Skeleton } from '../../components/common/Skeleton'
-import { Grid } from '../../components/layout/Grid'
+
 import { usePetList } from '../../hooks/usePetList'
 import styles from './Pets.module.css'
-import { Select } from '../../components/common/Select'
+
 import { Button } from '../../components/common/Button'
+import { ButtonVariant } from '../../components/common/Button/Button.constants'
 import { filterColumns } from './Pets.constants'
-import { FormEvent } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { GetPetsRequest } from '../../interfaces/pet'
->>>>>>> ec63d8d00f1be65aab241b4bc4204bf560f0344a
+import { Grid } from '../../components/layout/Grid/Grid'
+import { Select } from '../../components/common/Select/Select'
+
 
 export function Pets() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   const urlParams = {
     page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
@@ -35,6 +28,20 @@ export function Pets() {
   }
 
   const { data, isLoading } = usePetList(urlParams)
+
+  function checkButtonState(event: ChangeEvent<HTMLFormElement>) {
+    const {type, size, gender }  = getFormValue(event.target.form)
+
+
+    if(type!== urlParams.type || 
+      size !== urlParams.size ||
+      gender !== urlParams.gender
+    ){
+      setIsButtonEnabled(true)
+    } else {
+      setIsButtonEnabled(false)
+    }
+  }
 
   function changePage(page: number) {
     setSearchParams((params) => {
@@ -69,13 +76,15 @@ export function Pets() {
     const newSearchParams = updateSearchParams(formValues)
 
     setSearchParams(newSearchParams)
+    setIsButtonEnabled(false)
   }
 
   return (
     <Grid>
       <div className={styles.container}>
         <Header />
-        <form className={styles.filters} onSubmit={applyFilters}>
+        <form className={styles.filters} onSubmit={applyFilters}
+        onChange={checkButtonState}>
           <div className={styles.columns}>
             {filterColumns.map((filter) => (
               <div key={filter.name} className={styles.column}>
@@ -88,7 +97,8 @@ export function Pets() {
               </div>
             ))}
           </div>
-          <Button type="submit">Buscar</Button>
+          <Button type="submit" 
+              variant={isButtonEnabled ? ButtonVariant.Default : ButtonVariant.Disabled}>Buscar</Button>
         </form>
         {isLoading && (
           <Skeleton containerClassName={styles.skeleton} count={10} />
@@ -113,8 +123,6 @@ export function Pets() {
       </div>
     </Grid>
   )
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> ec63d8d00f1be65aab241b4bc4204bf560f0344a
+
