@@ -1,18 +1,24 @@
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Header } from '../../components/common/Header'
 import { Grid } from '../../components/layout/Grid'
 import styles from './PetDetails.module.css'
 import { useQuery } from '@tanstack/react-query'
 import { getPetById } from '../../services/pets/getPetById'
-import { ImageBase64 } from '../../components/common/imageBase64/ImageBase64'
+import { ImageBase64 } from "../../components/common/imageBase64/ImageBase64.tsx";
 import { Skeleton } from '../../components/common/Skeleton'
+import { useShelter } from '../../hooks/useShelter.tsx'
+import { Button } from '../../components/common/Button/Button.tsx'
+import { ButtonVariant } from '../../components/common/Button/Button.constants.ts'
+
+import whatsapp from '../../assets/whatsapp.svg'
 
 export function PetDetails() {
 
   const { id } = useParams()
   
 
-  const { data, isLoading } = useQuery({
+  const {data: shelterData, isError : shelterIsError } = useShelter()
+  const { data : petData, isLoading, isError : petIsError} = useQuery({
     queryKey: ['get-pet-by-id', id],
     queryFn: async () => {
       return await getPetById(id ?? '')
@@ -32,13 +38,37 @@ export function PetDetails() {
           )}
           {!isLoading && (
           <>
-          <ImageBase64 src={data?.photo} className={styles.picture} />
-        <h1>{data?.name}</h1>
-        <span>Sobre o pet</span>
-        <p>{data?.bio}</p>
-        </>)}
+            <ImageBase64 src={petData?.photo} className={styles.picture} />
+            {petIsError && (
+              <>
+              <h1>Pet não encontrado</h1>
+              <Link to='/pets/'>Voltar para a listagem</Link>
+              </>
+            )}
+            {!petIsError && (
+              <>
+                <h1>{petData?.name}</h1>
+                <span>Sobre o pet</span>
+                <p>{petData?.bio}</p>
+                {
+                  !shelterIsError && 
+                        <a href={`https://wa.me/${shelterData?.shelterWhatsApp}?text=Olá gostaria de falar sobre ${petData?.name}`}
+                        target='_blank'>
+                          {/* <i className="fa-brands fa-whatsapp"></i> */}
+                        <Button variant={ButtonVariant.Text}>
+                          <span className={styles.buttonWhatsapp}>
+                            <img src={whatsapp} />
+                            Entre em contato com o abrigo
+                          </span>
+                        </Button>
+                        </a>
+                }
+              </>
+            )}
+          </>)}
         </main>
       </div>
+      
     </Grid>
   )
 }
